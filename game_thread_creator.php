@@ -29,8 +29,8 @@ function get_time_from_string($string) {
 */
 function is_time_to_post($gametime) {
 	$diff = (strtotime($gametime) - time()) / 60;
-	//echo $diff."<br>";
-	return ($diff >= $TIME_DIFF_LOW && $diff <= $TIME_DIFF_HIGH);
+	echo $diff."<br>";
+	return ($diff >= 55 && $diff <= 65);
 }
 
 /**
@@ -63,7 +63,8 @@ function post_to_reddit($homeTeam, $visitorTeam, $gametime) {
 * Do not ask for any links to be privately messaged";
 
 	$r = new Phapper();
-	$r->submitTextPost("ObiWanGinobili", $title, $description, false, false);
+	$result = $r->submitTextPost("nbastreams", $title, $description, false, false);
+	$r->setSuggestedSort($result->json->data->name, qa);
 }
 
 /**
@@ -161,8 +162,6 @@ date_default_timezone_set('America/New_York');
 
 $today = date("Ymd", time());
 
-$TIME_DIFF_LOW = 55;
-$TIME_DIFF_HIGH = 65;
 $DAILY_LINEUPS_URL = 'http://stats.nba.com/js/data/widgets/daily_lineups_'.$today.'.json';
 
 $jsonObj = get_json_from_url($DAILY_LINEUPS_URL);

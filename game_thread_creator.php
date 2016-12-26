@@ -1,4 +1,11 @@
 <?php
+
+/******************************************************************************
+					GAME THREAD BOT FOR /r/nbastreams
+									v1.0
+		Creates a Game Thread 1 hour before tip-off for every NBA game
+******************************************************************************/
+
 /**
 * Returns a JSON object from an http source.
 */
@@ -11,7 +18,8 @@ function get_json_from_url($url) {
 * "CLE vs GSW (12/25/2016 2:30:00 PM)"
 */
 function get_time_from_string($string) {
-	$str = substr(substr($string, strpos($string, "(")), strpos(substr($string, strpos($string, "(")), " ") + 1);
+	$str = substr(substr($string, strpos($string, "(")), 
+		strpos(substr($string, strpos($string, "(")), " ") + 1);
 
 	return date("H:i:s", strtotime(substr($str, 0, strlen($str) - 1)));
 }
@@ -55,7 +63,7 @@ function post_to_reddit($homeTeam, $visitorTeam, $gametime) {
 * Do not ask for any links to be privately messaged";
 
 	$r = new Phapper();
-	$response = $r->submitTextPost("ObiWanGinobili", $title, $description, false, false);
+	$r->submitTextPost("ObiWanGinobili", $title, $description, false, false);
 }
 
 /**
@@ -151,15 +159,13 @@ function print_game_summary($gameID, $homeTeam, $visitorTeam, $gametime) {
 
 date_default_timezone_set('America/New_York');
 
+$today = date("Ymd", time());
+
 $TIME_DIFF_LOW = 55;
 $TIME_DIFF_HIGH = 65;
-$DAILY_LINEUPS_URL = 'http://stats.nba.com/js/data/widgets/daily_lineups_20161226.json';
-
-//echo date("H:i:s", time())."<br>";
+$DAILY_LINEUPS_URL = 'http://stats.nba.com/js/data/widgets/daily_lineups_'.$today.'.json';
 
 $jsonObj = get_json_from_url($DAILY_LINEUPS_URL);
-//echo $jsonObj->result_count." games today<br>";
-
 
 $results = $jsonObj->results;
 foreach ($results as $game) {
@@ -168,15 +174,12 @@ foreach ($results as $game) {
 	$visitorTeam = $game->VisitorTeam;
 	$gametime = get_time_from_string($game->Game);
 
-	print_game_summary($gameID, $homeTeam, $visitorTeam, $gametime);
+	//print_game_summary($gameID, $homeTeam, $visitorTeam, $gametime);
 	
 	if (is_time_to_post($gametime) && !is_already_posted($gameID)) {
 		post_to_reddit($homeTeam, $visitorTeam, $gametime);
 		save_game_as_posted($gameID);
 	}
 }
-	
-
-post_to_reddit("SAS", "GSW", "2:00 PM");
 
 ?>

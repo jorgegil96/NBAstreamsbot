@@ -174,7 +174,7 @@ foreach ($results as $game) {
 	$visitorTeam = $game->VisitorTeam;
 	$gametime = get_time_from_string($game->Game);
 
-	//print_game_summary($gameID, $homeTeam, $visitorTeam, $gametime);
+	print_game_summary($gameID, $homeTeam, $visitorTeam, $gametime);
 	
 	if (is_time_to_post($gametime) && !is_already_posted($gameID)) {
 		post_to_reddit($homeTeam, $visitorTeam, $gametime);

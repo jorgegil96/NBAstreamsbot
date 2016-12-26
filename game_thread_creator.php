@@ -25,12 +25,12 @@ function get_time_from_string($string) {
 }
 
 /**
-* Return true if $gametime is in the next 55-65 minutes, or false otherwise.
+* Return true if $gametime is in the next 50-68 minutes, or false otherwise.
 */
 function is_time_to_post($gametime) {
 	$diff = (strtotime($gametime) - time()) / 60;
 	echo $diff."<br>";
-	return ($diff >= 55 && $diff <= 65);
+	return ($diff >= 50 && $diff <= 68);
 }
 
 /**

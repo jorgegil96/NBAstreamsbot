@@ -40,7 +40,7 @@ function is_already_posted($gameID) {
 	$gamesfile = fopen("games.txt", "r");
 	if ($gamesfile) {
 	    while (($line = fgets($gamesfile)) !== false) {
-	        if ($line == $gameID) {
+	        if ($line == $gameID."\n") {
 	        	return true;
 	        }
 	    }

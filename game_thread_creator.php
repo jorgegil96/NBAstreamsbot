@@ -1,9 +1,9 @@
 <?php
 
 /******************************************************************************
-					GAME THREAD BOT FOR /r/nbastreams
-									v1.0
-		Creates a Game Thread 1 hour before tip-off for every NBA game
+                      GAME THREAD BOT FOR /r/nbastreams
+                                    v1.0
+       Creates a Game Thread 1 hour before tip-off for every NBA game
 ******************************************************************************/
 
 /**

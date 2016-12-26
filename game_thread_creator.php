@@ -63,7 +63,7 @@ function post_to_reddit($homeTeam, $visitorTeam, $gametime) {
 * Do not ask for any links to be privately messaged";
 
 	$r = new Phapper();
-	$result = $r->submitTextPost("nbastreams", $title, $description, false, false);
+	$result = $r->submitTextPost("ObiWanGinobili", $title, $description, false, false);
 	$r->setSuggestedSort($result->json->data->name, qa);
 }
 

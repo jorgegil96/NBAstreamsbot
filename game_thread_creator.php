@@ -61,10 +61,13 @@ function post_to_reddit($homeTeam, $visitorTeam, $gametime) {
 * Always specify if your stream is HD, SD, etc. \n 
 * Please do not ask for certain links to be removed. \n
 * Do not ask for any links to be privately messaged";
+	$flair_template_id = "318883ac-9b0b-11e6-95bb-0ec02502f634";
+	$flair_text = "Game Thread";
 
 	$r = new Phapper();
 	$result = $r->submitTextPost("nbastreams", $title, $description, false, false);
 	$r->setSuggestedSort($result->json->data->name, qa);
+	$r->selectLinkFlair($result->json->data->name, $flair_template_id, $flair_text);
 }
 
 /**
@@ -180,5 +183,4 @@ foreach ($results as $game) {
 		save_game_as_posted($gameID);
 	}
 }
-
 ?>

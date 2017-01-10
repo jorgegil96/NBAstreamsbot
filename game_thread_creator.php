@@ -68,6 +68,8 @@ function post_to_reddit($homeTeam, $visitorTeam, $gametime) {
 	$result = $r->submitTextPost("nbastreams", $title, $description, false, false);
 	$r->setSuggestedSort($result->json->data->name, qa);
 	$r->selectLinkFlair($result->json->data->name, $flair_template_id, $flair_text);
+
+	return $result->json->data->name;
 }
 
 /**
@@ -80,6 +82,25 @@ function save_game_as_posted($gameID) {
 		fwrite($gamesfile, $gameID.PHP_EOL);
 	}
 	fclose($gamesfile);
+}
+
+/**
+* Saves postID and timestamp to posts.txt to indicate that a game thread with this ID has been
+posted to reddit and should be deleted in the future. 
+*/
+function save_thread_as_posted($postID) {
+	$postsfile = fopen("posts.txt", "a");
+	if ($postsfile) {
+		fwrite($postsfile, $postID."/".time().PHP_EOL);
+	}
+	fclose($gamesfile);
+}
+
+/**
+* Return true if older than 210 minutes, false otherwise.
+*/
+function is_old_enough($postUTC) {
+	return ((time() - $postUTC)/60) > 210;
 }
 
 function get_game_thread_title($homeTeam, $visitorTeam, $gametime) {
@@ -179,8 +200,21 @@ foreach ($results as $game) {
 	print_game_summary($gameID, $homeTeam, $visitorTeam, $gametime);
 	
 	if (is_time_to_post($gametime) && !is_already_posted($gameID)) {
-		post_to_reddit($homeTeam, $visitorTeam, $gametime);
+		$postID = post_to_reddit($homeTeam, $visitorTeam, $gametime);
 		save_game_as_posted($gameID);
+		//save_thread_as_posted($postID);
 	}
 }
+
+require_once("Phapper/src/phapper.php");
+$r = new Phapper();
+$listing = $r->getHot("nbastreams", 30, null, null);
+foreach ($listing->data->children as $post) {
+	if ($post->data->author == "NBAstreamsbotv2" && is_old_enough($post->data->created_utc)) {
+		echo "removing.. ".$post->data->title."<br>";
+		$r->remove($post->data->name);
+	}
+}
+
+
 ?>

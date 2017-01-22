@@ -97,10 +97,10 @@ function save_thread_as_posted($postID) {
 }
 
 /**
-* Return true if older than 210 minutes, false otherwise.
+* Return true if older than 240 minutes, false otherwise.
 */
 function is_old_enough($postUTC) {
-	return ((time() - $postUTC)/60) > 210;
+	return ((time() - $postUTC)/60) > 240;
 }
 
 function get_game_thread_title($homeTeam, $visitorTeam, $gametime) {

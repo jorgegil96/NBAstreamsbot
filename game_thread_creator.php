@@ -171,7 +171,7 @@ function get_team_from_abbr($abbr) {
 		case 'WAS':
 			return "Washington Wizards";
 		case 'ATL':
-			return "Atla";
+			return "Atlanta";
 		default:
 			return $abbr;
 	}

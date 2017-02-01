@@ -211,8 +211,8 @@ $r = new Phapper();
 $listing = $r->getHot("nbastreams", 30, null, null);
 foreach ($listing->data->children as $post) {
 	if ($post->data->author == "Obi-Wan_Ginobili" && is_old_enough($post->data->created_utc)) {
-		echo "removing.. ".$post->data->title."<br>";
-		$r->remove($post->data->name);
+		echo "deleting.. ".$post->data->title."<br>";
+		$r->delete($post->data->name);
 	}
 }
 

@@ -210,7 +210,7 @@ require_once("Phapper/src/phapper.php");
 $r = new Phapper();
 $listing = $r->getHot("nbastreams", 30, null, null);
 foreach ($listing->data->children as $post) {
-	if ($post->data->author == "NBAstreamsbotv2" && is_old_enough($post->data->created_utc)) {
+	if ($post->data->author == "Obi-Wan_Ginobili" && is_old_enough($post->data->created_utc)) {
 		echo "removing.. ".$post->data->title."<br>";
 		$r->remove($post->data->name);
 	}

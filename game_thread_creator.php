@@ -66,7 +66,7 @@ function post_to_reddit($homeTeam, $visitorTeam, $gametime) {
 
 	$r = new Phapper();
 	$result = $r->submitTextPost("nbastreams", $title, $description, false, false);
-	$r->setSuggestedSort($result->json->data->name, qa);
+	$r->setSuggestedSort($result->json->data->name, top);
 	$r->selectLinkFlair($result->json->data->name, $flair_template_id, $flair_text);
 
 	return $result->json->data->name;
@@ -210,7 +210,7 @@ require_once("Phapper/src/phapper.php");
 $r = new Phapper();
 $listing = $r->getHot("nbastreams", 30, null, null);
 foreach ($listing->data->children as $post) {
-	if ($post->data->author == "Obi-Wan_Ginobili" && is_old_enough($post->data->created_utc)) {
+	if (($post->data->author == "Obi-Wan_Ginobili" || $post->data->author == "NBAstreamsbotv2") && is_old_enough($post->data->created_utc)) {
 		echo "deleting.. ".$post->data->title."<br>";
 		$r->delete($post->data->name);
 	}

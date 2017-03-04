@@ -104,8 +104,8 @@ function is_old_enough($postUTC) {
 }
 
 function get_game_thread_title($homeTeam, $visitorTeam, $gametime) {
-	return "Game Thread: ".get_team_from_abbr($homeTeam)." vs ".
-		get_team_from_abbr($visitorTeam)." (".$gametime." ET)";
+	return "Game Thread: ".get_team_from_abbr($visitorTeam)." @ ".
+		get_team_from_abbr($homeTeam)." (".$gametime." ET)";
 }
 
 function get_team_from_abbr($abbr) {
